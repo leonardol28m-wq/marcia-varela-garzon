@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Marcia Luz Varela Garzón — Abogada y Escribana Adjunta al Registro Notarial N° 177. Asesoramiento jurídico y notarial integral en Salta. Asistente Legal IA 24/7 y agendamiento online." />
+  <meta name="description" content="Marcia Luz Varela Garzón — Abogada y Escribana Adjunta al Registro Notarial N° 177. Asesoramiento jurídico y notarial integral en Salta Capital." />
   <meta name="keywords" content="abogada Salta, escribana Salta, registro notarial 177, Marcia Varela Garzón, derecho civil Salta, sucesiones Salta, escrituras públicas Salta, poderes notariales Salta" />
   <meta name="author" content="Marcia Luz Varela Garzón" />
   <meta property="og:title" content="Marcia Luz Varela Garzón | Abogada &amp; Escribana — Salta" />
-  <meta property="og:description" content="Asesoramiento jurídico y notarial de excelencia. Escribana Adjunta al Registro Notarial N° 177 de Salta. Asistente IA 24/7." />
+  <meta property="og:description" content="Asesoramiento jurídico y notarial de excelencia. Escribana Adjunta al Registro Notarial N° 177 de Salta. Atención directa y personalizada." />
   <meta property="og:type" content="website" />
   <title>Marcia Luz Varela Garzón | Abogada &amp; Escribana — Salta</title>
 
@@ -126,10 +126,9 @@
     }
     .btn-wa:hover { background: #20ba5a; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,211,102,0.3); }
 
-    /* ===== IA BADGE ===== */
-    .ia-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.28); padding: 6px 16px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #c9a84c; }
-    .ia-dot { width: 6px; height: 6px; background: #c9a84c; border-radius: 50%; flex-shrink: 0; animation: pulse-dot 1.6s ease-in-out infinite; }
-    @keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.35; transform:scale(1.6); } }
+    /* ===== CREDENTIAL BADGE (hero) ===== */
+    .cred-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.28); padding: 6px 16px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #c9a84c; }
+    .cred-dot { width: 6px; height: 6px; background: #c9a84c; border-radius: 50%; flex-shrink: 0; }
 
     /* ===== STATS BAR ===== */
     .stats-bar { background: #000; border-top: 1px solid rgba(201,168,76,0.12); border-bottom: 1px solid rgba(201,168,76,0.12); padding: 30px 0; }
@@ -161,8 +160,6 @@
     /* ===== SERVICES TABS ===== */
     .tab-btn { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 26px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; font-family: 'Inter', sans-serif; }
     .tab-btn.active { background: #c9a84c; color: #000; border-color: #c9a84c; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: grid; }
     .service-card { background: #111; border: 1px solid rgba(201,168,76,0.08); padding: 26px; transition: all 0.3s; }
     .service-card:hover { border-color: rgba(201,168,76,0.3); background: #141414; }
     .service-icon { color: #c9a84c; font-size: 1.5rem; margin-bottom: 14px; }
@@ -243,7 +240,7 @@
         <a href="#inicio" class="nav-link">Inicio</a>
         <a href="#servicios" class="nav-link">Servicios</a>
         <a href="#nosotros" class="nav-link">Perfil</a>
-        <a href="#diferenciadores" class="nav-link">IA &amp; Ventajas</a>
+        <a href="#diferenciadores" class="nav-link">Ventajas</a>
         <a href="#contacto" class="nav-link">Contacto</a>
       </nav>
       <a href="#contacto" class="btn-gold hidden lg:inline-flex">
@@ -266,7 +263,7 @@
     <a href="#inicio" class="mob-link" onclick="closeMob()">Inicio</a>
     <a href="#servicios" class="mob-link" onclick="closeMob()">Servicios</a>
     <a href="#nosotros" class="mob-link" onclick="closeMob()">Perfil</a>
-    <a href="#diferenciadores" class="mob-link" onclick="closeMob()">IA &amp; Ventajas</a>
+    <a href="#diferenciadores" class="mob-link" onclick="closeMob()">Ventajas</a>
     <a href="#contacto" class="mob-link" onclick="closeMob()">Contacto</a>
     <a href="#contacto" class="btn-gold mt-6" onclick="closeMob()">
       <i class="fa-solid fa-calendar-check"></i>
@@ -281,8 +278,8 @@
       <div class="max-w-3xl">
 
         <!-- Badge oficial -->
-        <div class="ia-badge mb-8" data-aos="fade-down" data-aos-delay="80">
-          <span class="ia-dot"></span>
+        <div class="cred-badge mb-8" data-aos="fade-down" data-aos-delay="80">
+          <span class="cred-dot"></span>
           Decreto N° 895/2025 · Adjunta Registro Notarial N° 177 · Salta
         </div>
 
@@ -298,16 +295,16 @@
         <p class="text-white/65 leading-relaxed mb-10 max-w-xl"
            style="font-size:clamp(1rem,2vw,1.15rem)"
            data-aos="fade-up" data-aos-delay="280">
-          Abogada y Escribana con vocación de excelencia. Asesoramiento jurídico integral,
-          actos notariales de primer nivel y acceso a un
-          <strong style="color:rgba(201,168,76,0.9);">Asistente Legal IA disponible las 24 horas del día.</strong>
+          Abogada y Escribana con vocación de excelencia. Asesoramiento jurídico integral y
+          actos notariales de primer nivel con
+          <strong style="color:rgba(201,168,76,0.9);">atención directa y personalizada en cada caso.</strong>
         </p>
 
         <!-- CTAs -->
         <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="400">
           <a href="#contacto" class="btn-gold">
             <i class="fa-solid fa-calendar-check"></i>
-            Agendar Consulta Online
+            Agendar Consulta
           </a>
           <a href="https://wa.me/5493870000000?text=Hola%20Marcia%2C%20quisiera%20hacer%20una%20consulta%20legal." target="_blank" class="btn-outline">
             <i class="fa-brands fa-whatsapp"></i>
@@ -322,16 +319,16 @@
             Secreto Profesional
           </div>
           <div class="flex items-center gap-2 text-white/45" style="font-size:0.82rem">
-            <i class="fa-solid fa-robot" style="color:#c9a84c"></i>
-            Asistente IA 24/7
+            <i class="fa-solid fa-user-tie" style="color:#c9a84c"></i>
+            Atención Personalizada
           </div>
           <div class="flex items-center gap-2 text-white/45" style="font-size:0.82rem">
             <i class="fa-solid fa-stamp" style="color:#c9a84c"></i>
             Fe Pública Notarial
           </div>
           <div class="flex items-center gap-2 text-white/45" style="font-size:0.82rem">
-            <i class="fa-solid fa-calendar-check" style="color:#c9a84c"></i>
-            Agendamiento Automatizado
+            <i class="fa-solid fa-scale-balanced" style="color:#c9a84c"></i>
+            Doble Habilitación
           </div>
         </div>
       </div>
@@ -356,8 +353,8 @@
           <div class="stat-label">Habilitaciones Profesionales</div>
         </div>
         <div data-aos="fade-up" data-aos-delay="240">
-          <div class="stat-num">24/7</div>
-          <div class="stat-label">Asistente Legal IA</div>
+          <div class="stat-num">2025</div>
+          <div class="stat-label">Decreto de Designación N° 895</div>
         </div>
         <div data-aos="fade-up" data-aos-delay="320">
           <div class="stat-num">100%</div>
@@ -380,56 +377,56 @@
 
       <div class="bento-grid">
 
-        <!-- IA 24/7 — HERO CARD -->
+        <!-- ATENCIÓN DIRECTA — HERO CARD -->
         <div class="bento-card bento-col-8 bento-card--hero" data-aos="fade-right" data-aos-delay="80">
           <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
-            <div class="bento-icon"><i class="fa-solid fa-robot"></i></div>
-            <div class="ia-badge">
-              <span class="ia-dot"></span>
-              Disponible Ahora Mismo
+            <div class="bento-icon"><i class="fa-solid fa-user-tie"></i></div>
+            <div class="cred-badge">
+              <span class="cred-dot"></span>
+              Trato Directo Garantizado
             </div>
           </div>
           <h3 class="font-serif font-bold leading-tight mb-4" style="font-size:clamp(1.6rem,3vw,2.6rem)">
-            Asistente Legal <span class="text-gold">IA 24/7</span>
+            Atención Directa <span class="text-gold">y Personalizada</span>
           </h3>
           <p class="text-white/55 leading-relaxed mb-6 max-w-lg" style="font-size:0.95rem">
-            Consultá dudas legales o notariales en cualquier momento del día o de la noche.
-            Nuestro asistente inteligente te brinda orientación inicial de forma inmediata,
-            privada y sin costo adicional — los 365 días del año.
+            Cada consulta es atendida personalmente por la Dra. Marcia Luz Varela Garzón.
+            Sin intermediarios, sin derivaciones. Usted habla siempre directamente con la profesional
+            a cargo de su caso, garantizando la continuidad y el rigor que su situación merece.
           </p>
           <div class="flex flex-wrap gap-2 mb-8">
-            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:#1a1a1a;border:1px solid rgba(201,168,76,0.18);padding:5px 14px;color:rgba(201,168,76,0.8);">Respuesta Inmediata</span>
-            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:#1a1a1a;border:1px solid rgba(201,168,76,0.18);padding:5px 14px;color:rgba(201,168,76,0.8);">Sin Costo Adicional</span>
-            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:#1a1a1a;border:1px solid rgba(201,168,76,0.18);padding:5px 14px;color:rgba(201,168,76,0.8);">Privado y Confidencial</span>
+            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:#1a1a1a;border:1px solid rgba(201,168,76,0.18);padding:5px 14px;color:rgba(201,168,76,0.8);">Sin Intermediarios</span>
+            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:#1a1a1a;border:1px solid rgba(201,168,76,0.18);padding:5px 14px;color:rgba(201,168,76,0.8);">Seguimiento Permanente</span>
+            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:#1a1a1a;border:1px solid rgba(201,168,76,0.18);padding:5px 14px;color:rgba(201,168,76,0.8);">Comunicación Fluida</span>
           </div>
           <a href="#contacto" class="btn-gold">
-            <i class="fa-solid fa-comments"></i>
-            Consultar al Asistente IA
+            <i class="fa-solid fa-calendar-check"></i>
+            Solicitar Consulta
           </a>
         </div>
 
-        <!-- AGENDAMIENTO -->
+        <!-- HONORARIOS TRANSPARENTES -->
         <div class="bento-card bento-col-4" data-aos="fade-left" data-aos-delay="120">
-          <div class="bento-icon"><i class="fa-solid fa-calendar-check"></i></div>
+          <div class="bento-icon"><i class="fa-solid fa-handshake"></i></div>
           <h3 class="font-serif text-xl font-bold mb-3">
-            Agendamiento <span class="text-gold">Automatizado</span>
+            Honorarios <span class="text-gold">Transparentes</span>
           </h3>
           <p class="text-white/50 text-sm leading-relaxed mb-5">
-            Reservá tu turno en segundos desde cualquier dispositivo. Sistema con confirmación y recordatorios automáticos.
+            Los costos se acuerdan con claridad desde el primer contacto. Sin sorpresas ni cargos ocultos en ninguna etapa del proceso.
           </p>
           <ul class="space-y-2 mb-6">
             <li class="flex items-center gap-2 text-white/50" style="font-size:0.82rem">
-              <i class="fa-solid fa-check" style="color:#c9a84c;font-size:0.65rem"></i> Reserva en tiempo real
+              <i class="fa-solid fa-check" style="color:#c9a84c;font-size:0.65rem"></i> Presupuesto claro al inicio
             </li>
             <li class="flex items-center gap-2 text-white/50" style="font-size:0.82rem">
-              <i class="fa-solid fa-check" style="color:#c9a84c;font-size:0.65rem"></i> Recordatorio automático
+              <i class="fa-solid fa-check" style="color:#c9a84c;font-size:0.65rem"></i> Sin costos ocultos
             </li>
             <li class="flex items-center gap-2 text-white/50" style="font-size:0.82rem">
-              <i class="fa-solid fa-check" style="color:#c9a84c;font-size:0.65rem"></i> Sin llamadas ni esperas
+              <i class="fa-solid fa-check" style="color:#c9a84c;font-size:0.65rem"></i> Acuerdo por escrito
             </li>
           </ul>
           <a href="#contacto" class="btn-outline" style="font-size:0.72rem;padding:11px 24px">
-            Agendar Turno
+            Consultar Ahora
           </a>
         </div>
 
@@ -485,7 +482,11 @@
       </div>
 
       <!-- Tab Legal -->
-      <div class="tab-panel active grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="tab-legal" data-aos="fade-up">
+      <div id="tab-legal" style="display:grid;grid-template-columns:repeat(1,1fr);gap:1.25rem;" data-aos="fade-up">
+        <style>
+          @media(min-width:768px){#tab-legal,#tab-notarial{grid-template-columns:repeat(2,1fr);}}
+          @media(min-width:1024px){#tab-legal,#tab-notarial{grid-template-columns:repeat(3,1fr);}}
+        </style>
         <div class="service-card">
           <div class="service-icon"><i class="fa-solid fa-house"></i></div>
           <h3 class="font-serif text-lg font-semibold mb-2">Derecho Civil</h3>
@@ -519,7 +520,7 @@
       </div>
 
       <!-- Tab Notarial -->
-      <div class="tab-panel grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="tab-notarial">
+      <div id="tab-notarial" style="display:none;grid-template-columns:repeat(1,1fr);gap:1.25rem;">
         <div class="service-card">
           <div class="service-icon"><i class="fa-solid fa-file-signature"></i></div>
           <h3 class="font-serif text-lg font-semibold mb-2">Escrituras Públicas</h3>
@@ -663,7 +664,7 @@
           <span class="step-num">01</span>
           <div class="bento-icon mb-5"><i class="fa-solid fa-comments"></i></div>
           <h4 class="font-serif text-lg font-semibold mb-3">Primer Contacto</h4>
-          <p class="text-white/45 text-sm leading-relaxed">WhatsApp, formulario o Asistente IA disponible las 24 hs. Sin costo, sin compromiso.</p>
+          <p class="text-white/45 text-sm leading-relaxed">Comuníquese por WhatsApp o formulario de contacto. Sin costo, sin compromiso.</p>
         </div>
         <div class="bento-card relative" style="background:rgba(17,17,17,0.85);" data-aos="fade-up" data-aos-delay="160">
           <span class="step-num">02</span>
@@ -699,7 +700,7 @@
         </h2>
         <div class="gold-rule"></div>
         <p class="text-white/45 max-w-md mx-auto mt-5" style="font-size:0.88rem;line-height:1.8">
-          Complete el formulario y me comunicaré a la brevedad. También puede usar el Asistente IA para orientación inmediata.
+          Complete el formulario y me comunicaré a la brevedad para coordinar su consulta.
         </p>
       </div>
 
@@ -786,10 +787,10 @@
               </div>
             </div>
             <div class="contact-info-row">
-              <i class="fa-solid fa-robot"></i>
+              <i class="fa-brands fa-whatsapp"></i>
               <div>
-                <div class="form-label mb-1">Asistente IA</div>
-                <p class="text-white/70 text-sm">Disponible 24/7 para orientación inicial y consultas urgentes</p>
+                <div class="form-label mb-1">WhatsApp</div>
+                <p class="text-white/70 text-sm">Consultas por mensaje, respuesta a la brevedad</p>
               </div>
             </div>
           </div>
@@ -798,16 +799,6 @@
             <i class="fa-brands fa-whatsapp text-xl"></i>
             Escribir por WhatsApp Ahora
           </a>
-
-          <!-- IA mini banner -->
-          <div class="flex items-center gap-4 mt-4 p-4" style="background:#111;border:1px solid rgba(201,168,76,0.18);">
-            <div class="bento-icon" style="width:40px;height:40px;font-size:1rem;flex-shrink:0;margin-bottom:0;"><i class="fa-solid fa-robot"></i></div>
-            <div class="flex-1">
-              <div class="form-label mb-0.5">Asistente IA — Activo ahora</div>
-              <p style="font-size:0.72rem;color:rgba(255,255,255,0.3);">Orientación jurídica inmediata, sin esperas</p>
-            </div>
-            <span class="ia-dot flex-shrink-0"></span>
-          </div>
         </div>
       </div>
     </div>
@@ -947,8 +938,8 @@
               {{INSERTAR_HORARIO}}
             </div>
             <div class="flex items-center gap-3 text-white/35 text-sm">
-              <i class="fa-solid fa-robot flex-shrink-0" style="color:#c9a84c;"></i>
-              Asistente IA: disponible 24/7
+              <i class="fa-brands fa-whatsapp flex-shrink-0" style="color:#c9a84c;"></i>
+              Consultas por WhatsApp
             </div>
           </div>
         </div>
@@ -991,15 +982,20 @@
       document.getElementById('mobileMenu').classList.remove('open');
     }
 
-    // ── Tabs ──
+    // ── Tabs (toggle con style.display directo, sin conflicto Tailwind/CSS) ──
+    const tabLegal    = document.getElementById('tab-legal');
+    const tabNotarial = document.getElementById('tab-notarial');
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const t = btn.dataset.tab;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('tab-' + t).classList.add('active');
-        document.getElementById('tab-' + t).setAttribute('data-aos-anchor-placement','top-bottom');
+        if (btn.dataset.tab === 'legal') {
+          tabLegal.style.display    = 'grid';
+          tabNotarial.style.display = 'none';
+        } else {
+          tabLegal.style.display    = 'none';
+          tabNotarial.style.display = 'grid';
+        }
         AOS.refresh();
       });
     });

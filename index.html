@@ -42,21 +42,93 @@
     /* ===== BASE ===== */
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { background: #0a0a0a; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      /* Smooth momentum scroll on iOS */
+      -webkit-overflow-scrolling: touch;
+    }
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #0a0a0a; }
     ::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 3px; }
 
+    /* ===== SITE HEADER WRAPPER (FIXED — contiene topbar + navbar) ===== */
+    #siteHeader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      /* La transición de transform maneja el auto-hide en mobile */
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* Auto-hide hacia arriba cuando se hace scroll hacia abajo en mobile */
+    #siteHeader.header-hidden {
+      transform: translateY(-100%);
+    }
+
     /* ===== TOPBAR ===== */
-    .topbar { background: #000; border-bottom: 1px solid rgba(201,168,76,0.18); padding: 8px 0; font-size: 0.75rem; letter-spacing: 0.05em; color: rgba(255,255,255,0.45); }
+    .topbar {
+      background: #000;
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+      padding: 8px 0;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.45);
+      /* Transición para ocultar al hacer scroll */
+      overflow: hidden;
+      max-height: 50px;
+      opacity: 1;
+      transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.25s ease;
+    }
     .topbar a { color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
     .topbar a:hover { color: #c9a84c; }
+    /* Topbar se oculta al hacer scroll */
+    #siteHeader.scrolled .topbar {
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      opacity: 0;
+    }
 
-    /* ===== NAVBAR ===== */
-    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 22px 0; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
-    .navbar.scrolled { background: rgba(8,8,8,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(201,168,76,0.12); padding: 14px 0; }
-    .nav-link { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.2s; position: relative; padding-bottom: 2px; }
-    .nav-link::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: #c9a84c; transition: width 0.3s; }
+    /* ===== NAVBAR (DENTRO DEL WRAPPER FIJO) ===== */
+    /* Ya no necesita position:fixed ni z-index propio — lo hereda del wrapper */
+    .navbar {
+      padding: 22px 0;
+      transition: background 0.4s cubic-bezier(0.4,0,0.2,1),
+                  padding   0.4s cubic-bezier(0.4,0,0.2,1),
+                  border-color 0.4s;
+    }
+    .navbar.scrolled {
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      padding: 14px 0;
+    }
+    .nav-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #c9a84c;
+      transition: width 0.3s;
+    }
     .nav-link:hover { color: #fff; }
     .nav-link:hover::after { width: 100%; }
 
@@ -70,10 +142,12 @@
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      will-change: transform;
     }
-    @media (max-width: 768px) {
-      .hero-section { background-attachment: scroll; }
+    /* Deshabilitar parallax en touch/mobile — evita jittering en iOS */
+    @media (max-width: 768px), (hover: none) {
+      .hero-section {
+        background-attachment: scroll;
+      }
     }
     .hero-overlay {
       position: absolute;
@@ -86,48 +160,114 @@
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      will-change: transform;
+      /* IMPORTANTE: position:relative para que el overlay absolute funcione */
       position: relative;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 768px), (hover: none) {
       .parallax-section { background-attachment: scroll; }
     }
 
     /* ===== TYPOGRAPHY ===== */
     .text-gold { color: #c9a84c; }
-    .section-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #c9a84c; border: 1px solid rgba(201,168,76,0.3); padding: 5px 16px; margin-bottom: 16px; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 5px 16px;
+      margin-bottom: 16px;
+    }
     .gold-rule { width: 44px; height: 2px; background: #c9a84c; margin: 0 auto 24px; }
     .gold-rule-left { width: 44px; height: 2px; background: #c9a84c; margin: 0 0 24px; }
 
     /* ===== BUTTONS ===== */
     .btn-gold {
-      background: #c9a84c; color: #000;
-      font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 14px 32px; border: none; cursor: pointer; text-decoration: none;
-      display: inline-flex; align-items: center; gap: 9px;
+      background: #c9a84c;
+      color: #000;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
       clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-      transition: all 0.3s;
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+      /* Respuesta de tap más rápida en móvil */
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     .btn-gold:hover { background: #d4af37; transform: translateY(-2px); box-shadow: 0 14px 40px rgba(201,168,76,0.3); }
+    .btn-gold:active { transform: translateY(0); }
+
     .btn-outline {
-      background: transparent; color: #c9a84c;
-      font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 13px 30px; border: 1px solid rgba(201,168,76,0.4); cursor: pointer; text-decoration: none;
-      display: inline-flex; align-items: center; gap: 9px;
-      transition: all 0.3s;
+      background: transparent;
+      color: #c9a84c;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 13px 30px;
+      border: 1px solid rgba(201,168,76,0.4);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     .btn-outline:hover { border-color: #c9a84c; background: rgba(201,168,76,0.07); transform: translateY(-2px); }
+    .btn-outline:active { transform: translateY(0); }
+
     .btn-wa {
-      background: #25D366; color: #fff;
-      font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 14px 32px; border: none; cursor: pointer; text-decoration: none;
-      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-      transition: all 0.3s; width: 100%;
+      background: #25D366;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+      width: 100%;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     .btn-wa:hover { background: #20ba5a; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,211,102,0.3); }
+    .btn-wa:active { transform: translateY(0); }
 
     /* ===== CREDENTIAL BADGE (hero) ===== */
-    .cred-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.28); padding: 6px 16px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #c9a84c; }
+    .cred-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.28);
+      padding: 6px 16px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c9a84c;
+    }
     .cred-dot { width: 6px; height: 6px; background: #c9a84c; border-radius: 50%; flex-shrink: 0; }
 
     /* ===== STATS BAR ===== */
@@ -137,30 +277,68 @@
 
     /* ===== BENTO GRID ===== */
     .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
-    .bento-col-8 { grid-column: span 8; }
-    .bento-col-4 { grid-column: span 4; }
+    .bento-col-8  { grid-column: span 8; }
+    .bento-col-4  { grid-column: span 4; }
     .bento-col-4b { grid-column: span 4; }
     .bento-col-4c { grid-column: span 4; }
     .bento-col-4d { grid-column: span 4; }
     @media (max-width: 1023px) {
-      .bento-col-8 { grid-column: span 12; }
+      .bento-col-8             { grid-column: span 12; }
       .bento-col-4, .bento-col-4b { grid-column: span 6; }
       .bento-col-4c, .bento-col-4d { grid-column: span 6; }
     }
     @media (max-width: 639px) {
-      .bento-col-8, .bento-col-4, .bento-col-4b, .bento-col-4c, .bento-col-4d { grid-column: span 12; }
+      .bento-col-8, .bento-col-4, .bento-col-4b,
+      .bento-col-4c, .bento-col-4d { grid-column: span 12; }
     }
-    .bento-card { background: #111111; border: 1px solid rgba(201,168,76,0.1); padding: 34px; position: relative; overflow: hidden; transition: border-color 0.35s, transform 0.35s; }
+    .bento-card {
+      background: #111111;
+      border: 1px solid rgba(201,168,76,0.1);
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.35s, transform 0.35s;
+    }
     .bento-card:hover { border-color: rgba(201,168,76,0.38); transform: translateY(-5px); }
-    .bento-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #c9a84c, transparent); opacity: 0; transition: opacity 0.35s; }
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
     .bento-card:hover::before { opacity: 1; }
     .bento-card--hero { background: linear-gradient(135deg, #111 0%, rgba(201,168,76,0.05) 100%); border-color: rgba(201,168,76,0.22); }
-    .bento-icon { width: 52px; height: 52px; border: 1px solid rgba(201,168,76,0.28); display: flex; align-items: center; justify-content: center; color: #c9a84c; font-size: 1.3rem; margin-bottom: 18px; flex-shrink: 0; }
+    .bento-icon {
+      width: 52px; height: 52px;
+      border: 1px solid rgba(201,168,76,0.28);
+      display: flex; align-items: center; justify-content: center;
+      color: #c9a84c;
+      font-size: 1.3rem;
+      margin-bottom: 18px;
+      flex-shrink: 0;
+    }
 
     /* ===== SERVICES TABS ===== */
-    .tab-btn { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 26px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; font-family: 'Inter', sans-serif; }
+    .tab-btn {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 26px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: transparent;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
     .tab-btn.active { background: #c9a84c; color: #000; border-color: #c9a84c; }
-    .service-card { background: #111; border: 1px solid rgba(201,168,76,0.08); padding: 26px; transition: all 0.3s; }
+    .service-card { background: #111; border: 1px solid rgba(201,168,76,0.08); padding: 26px; transition: border-color 0.3s, background 0.3s; }
     .service-card:hover { border-color: rgba(201,168,76,0.3); background: #141414; }
     .service-icon { color: #c9a84c; font-size: 1.5rem; margin-bottom: 14px; }
 
@@ -169,22 +347,89 @@
     .credential-badge i { color: #c9a84c; font-size: 1rem; flex-shrink: 0; }
 
     /* ===== PROCESS ===== */
-    .step-num { font-family: 'Playfair Display', serif; font-size: 3.2rem; font-weight: 800; color: rgba(201,168,76,0.1); line-height: 1; position: absolute; top: -8px; right: 0; pointer-events: none; }
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: rgba(201,168,76,0.1);
+      line-height: 1;
+      position: absolute;
+      top: -8px; right: 0;
+      pointer-events: none;
+    }
 
     /* ===== CONTACT ===== */
     .form-label { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 7px; }
-    .form-input { width: 100%; background: #111; border: 1px solid rgba(201,168,76,0.12); color: #fff; padding: 13px 16px; font-family: 'Inter', sans-serif; font-size: 0.87rem; transition: border-color 0.3s; outline: none; }
+    .form-input {
+      width: 100%;
+      background: #111;
+      border: 1px solid rgba(201,168,76,0.12);
+      color: #fff;
+      padding: 13px 16px;
+      font-family: 'Inter', sans-serif;
+      /* font-size >= 16px previene auto-zoom en iOS */
+      font-size: max(16px, 0.87rem);
+      transition: border-color 0.3s;
+      outline: none;
+    }
     .form-input:focus { border-color: rgba(201,168,76,0.45); }
     .form-input::placeholder { color: rgba(255,255,255,0.18); }
-    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+    .form-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
     .form-select option, .form-select optgroup { background: #111; color: #fff; }
     .contact-info-row { background: #111; border: 1px solid rgba(201,168,76,0.1); padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px; }
     .contact-info-row i { color: #c9a84c; font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
 
     /* ===== MAP & FACADE ===== */
-    .map-facade-wrapper { height: 460px; overflow: hidden; position: relative; border: 1px solid rgba(201,168,76,0.14); }
-    .facade-placeholder { background: #111; position: relative; overflow: hidden; }
-    .facade-placeholder::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(201,168,76,0.018) 12px, rgba(201,168,76,0.018) 24px); }
+    .map-facade-wrapper {
+      height: 460px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(201,168,76,0.14);
+    }
+    /* Fachada — la imagen cubre todo el contenedor */
+    .facade-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* z-index 2 para estar sobre el fondo decorativo */
+      z-index: 2;
+      display: block;
+    }
+    /* Placeholder solo visible cuando la imagen falla */
+    .facade-placeholder-inner {
+      display: none; /* oculto por defecto, se muestra via JS onerror */
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      text-align: center;
+      padding: 32px;
+      background: #111;
+    }
+    /* Fondo decorativo de la fachada (siempre detrás de la imagen) */
+    .facade-bg {
+      position: absolute;
+      inset: 0;
+      background: #111;
+      z-index: 1;
+    }
+    .facade-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(201,168,76,0.018) 12px, rgba(201,168,76,0.018) 24px);
+    }
 
     /* ===== FOOTER ===== */
     .footer { background: #000; border-top: 1px solid rgba(201,168,76,0.12); }
@@ -192,79 +437,143 @@
     .footer-link:hover { color: #c9a84c; }
 
     /* ===== WA FLOAT ===== */
-    .wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 9999; width: 58px; height: 58px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; text-decoration: none; box-shadow: 0 6px 28px rgba(37,211,102,0.4); transition: all 0.3s; }
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      width: 58px;
+      height: 58px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 6px 28px rgba(37,211,102,0.4);
+      transition: transform 0.3s;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
     .wa-float:hover { transform: scale(1.1); }
-    .wa-float::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #25D366; opacity: 0.35; animation: wa-ring 2.5s ease-out infinite; }
-    @keyframes wa-ring { 0% { transform: scale(1); opacity: 0.35; } 100% { transform: scale(2.2); opacity: 0; } }
+    .wa-float::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #25D366;
+      opacity: 0.35;
+      animation: wa-ring 2.5s ease-out infinite;
+    }
+    @keyframes wa-ring {
+      0%   { transform: scale(1);   opacity: 0.35; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
 
     /* ===== MOBILE MENU ===== */
-    .mobile-menu { position: fixed; inset: 0; background: #000; z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.98);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      overscroll-behavior: contain;
+    }
     .mobile-menu.open { transform: translateX(0); }
-    .mob-link { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
+    .mob-link {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
     .mob-link:hover { color: #c9a84c; }
 
     /* ===== SECTION DIVIDER ===== */
     .sec-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.22), transparent); }
+
+    /* ===== RESPONSIVE MOBILE GENERAL ===== */
+    @media (max-width: 640px) {
+      .bento-card { padding: 24px 20px; }
+      .btn-gold, .btn-outline { padding: 13px 22px; font-size: 0.74rem; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- ===== TOPBAR ===== -->
-  <div class="topbar hidden md:block">
-    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-      <span class="flex items-center gap-2">
-        <i class="fa-solid fa-location-dot" style="color:#c9a84c"></i>
-        12 de Octubre 132, Salta Capital — Registro Notarial N° 177
-      </span>
-      <span class="flex items-center gap-6">
+  <!-- ===== SITE HEADER (wrapper fijo: topbar + navbar) ===== -->
+  <div id="siteHeader">
+
+    <!-- TOPBAR — visible solo en md+ -->
+    <div class="topbar hidden md:block">
+      <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <span class="flex items-center gap-2">
-          <i class="fa-regular fa-clock" style="color:#c9a84c"></i>
-          {{INSERTAR_HORARIO}}
+          <i class="fa-solid fa-location-dot" style="color:#c9a84c"></i>
+          12 de Octubre 132, Salta Capital — Registro Notarial N° 177
         </span>
-        <a href="tel:{{INSERTAR_NUMERO}}" class="flex items-center gap-2">
-          <i class="fa-solid fa-phone" style="color:#c9a84c"></i>
-          +54 9 387 XXX-XXXX
+        <span class="flex items-center gap-6">
+          <span class="flex items-center gap-2">
+            <i class="fa-regular fa-clock" style="color:#c9a84c"></i>
+            {{INSERTAR_HORARIO}}
+          </span>
+          <a href="tel:{{INSERTAR_NUMERO}}" class="flex items-center gap-2">
+            <i class="fa-solid fa-phone" style="color:#c9a84c"></i>
+            +54 9 387 XXX-XXXX
+          </a>
+        </span>
+      </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="navbar" id="navbar">
+      <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <a href="#inicio" class="flex flex-col leading-tight" style="-webkit-tap-highlight-color:transparent;">
+          <span class="font-serif text-xl font-bold text-white tracking-wide">Marcia Varela Garzón</span>
+          <span style="color:#c9a84c;font-size:0.62rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">Abogada &amp; Escribana · Salta</span>
         </a>
-      </span>
-    </div>
+        <nav class="hidden lg:flex items-center gap-10">
+          <a href="#inicio"          class="nav-link">Inicio</a>
+          <a href="#servicios"       class="nav-link">Servicios</a>
+          <a href="#nosotros"        class="nav-link">Perfil</a>
+          <a href="#diferenciadores" class="nav-link">Ventajas</a>
+          <a href="#contacto"        class="nav-link">Contacto</a>
+        </nav>
+        <a href="#contacto" class="btn-gold hidden lg:inline-flex">
+          <i class="fa-solid fa-calendar-check"></i>
+          Agendar Consulta
+        </a>
+        <button id="burgerBtn" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Abrir menú" style="touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
+          <span class="w-6 h-px bg-white block transition-all"></span>
+          <span class="w-6 h-px bg-white block transition-all"></span>
+          <span class="w-4 h-px block transition-all" style="background:#c9a84c"></span>
+        </button>
+      </div>
+    </header>
+
   </div>
+  <!-- /siteHeader -->
 
-  <!-- ===== NAVBAR ===== -->
-  <header class="navbar" id="navbar">
-    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
-      <a href="#inicio" class="flex flex-col leading-tight">
-        <span class="font-serif text-xl font-bold text-white tracking-wide">Marcia Varela Garzón</span>
-        <span style="color:#c9a84c;font-size:0.62rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">Abogada &amp; Escribana · Salta</span>
-      </a>
-      <nav class="hidden lg:flex items-center gap-10">
-        <a href="#inicio" class="nav-link">Inicio</a>
-        <a href="#servicios" class="nav-link">Servicios</a>
-        <a href="#nosotros" class="nav-link">Perfil</a>
-        <a href="#diferenciadores" class="nav-link">Ventajas</a>
-        <a href="#contacto" class="nav-link">Contacto</a>
-      </nav>
-      <a href="#contacto" class="btn-gold hidden lg:inline-flex">
-        <i class="fa-solid fa-calendar-check"></i>
-        Agendar Consulta
-      </a>
-      <button id="burgerBtn" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Abrir menú">
-        <span class="w-6 h-px bg-white block transition-all"></span>
-        <span class="w-6 h-px bg-white block transition-all"></span>
-        <span class="w-4 h-px block transition-all" style="background:#c9a84c"></span>
-      </button>
-    </div>
-  </header>
-
-  <!-- Mobile Menu -->
+  <!-- ===== MOBILE MENU (fuera del wrapper para no verse afectado por el auto-hide) ===== -->
   <div class="mobile-menu" id="mobileMenu">
-    <button id="closeMenu" class="absolute top-7 right-7 text-white text-2xl" aria-label="Cerrar">
+    <button id="closeMenu" class="absolute top-7 right-7 text-white text-2xl" aria-label="Cerrar" style="touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
       <i class="fa-solid fa-xmark"></i>
     </button>
-    <a href="#inicio" class="mob-link" onclick="closeMob()">Inicio</a>
-    <a href="#servicios" class="mob-link" onclick="closeMob()">Servicios</a>
-    <a href="#nosotros" class="mob-link" onclick="closeMob()">Perfil</a>
+    <a href="#inicio"          class="mob-link" onclick="closeMob()">Inicio</a>
+    <a href="#servicios"       class="mob-link" onclick="closeMob()">Servicios</a>
+    <a href="#nosotros"        class="mob-link" onclick="closeMob()">Perfil</a>
     <a href="#diferenciadores" class="mob-link" onclick="closeMob()">Ventajas</a>
-    <a href="#contacto" class="mob-link" onclick="closeMob()">Contacto</a>
+    <a href="#contacto"        class="mob-link" onclick="closeMob()">Contacto</a>
     <a href="#contacto" class="btn-gold mt-6" onclick="closeMob()">
       <i class="fa-solid fa-calendar-check"></i>
       Agendar Consulta
@@ -313,7 +622,7 @@
         </div>
 
         <!-- Trust signals -->
-        <div class="flex flex-wrap gap-6 mt-12 pt-10 border-t border-white/8" data-aos="fade-up" data-aos-delay="540">
+        <div class="flex flex-wrap gap-6 mt-12 pt-10" style="border-top:1px solid rgba(255,255,255,0.08);" data-aos="fade-up" data-aos-delay="540">
           <div class="flex items-center gap-2 text-white/45" style="font-size:0.82rem">
             <i class="fa-solid fa-shield-halved" style="color:#c9a84c"></i>
             Secreto Profesional
@@ -562,7 +871,7 @@
     <div class="max-w-7xl mx-auto px-6">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-        <!-- Imagen / Foto profesional -->
+        <!-- Imagen profesional -->
         <div data-aos="fade-right">
           <div class="relative">
             <div class="overflow-hidden border border-white/5" style="aspect-ratio:3/4;background:#111;">
@@ -648,10 +957,11 @@
   </section>
 
   <!-- ===== PROCESO (PARALLAX) ===== -->
+  <!-- position:relative ya está en .parallax-section — necesario para el overlay absolute -->
   <section class="parallax-section py-24"
-    style="background-image: url('https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1920&q=70');background-size:cover;background-position:center;background-attachment:fixed;will-change:transform;">
-    <div class="absolute inset-0" style="background:rgba(0,0,0,0.88);"></div>
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
+    style="background-image:url('https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1920&q=70');background-size:cover;background-position:center;background-attachment:fixed;">
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.88);"></div>
+    <div class="max-w-7xl mx-auto px-6 relative" style="z-index:1;">
       <div class="text-center mb-16" data-aos="fade-up">
         <span class="section-tag">Cómo Trabajamos</span>
         <h2 class="font-serif font-bold mt-2 mb-4" style="font-size:clamp(2rem,4vw,3rem)">
@@ -847,16 +1157,32 @@
           </div>
         </div>
 
-        <!-- Fachada -->
+        <!-- ===== FACHADA — imagen con placeholder de respaldo ===== -->
         <div data-aos="fade-left" data-aos-delay="100">
-          <div class="map-facade-wrapper facade-placeholder">
+          <!--
+            ESTRUCTURA FACHADA:
+            - .facade-bg: fondo #111 + patrón decorativo (z-index 1)
+            - .facade-img: imagen real (z-index 2) — cubre todo el wrapper
+            - .facade-placeholder-inner: texto ayuda (z-index 3, display:none) — solo si falla la imagen
+          -->
+          <div class="map-facade-wrapper">
+            <!-- Fondo de respaldo -->
+            <div class="facade-bg"></div>
+
+            <!-- Imagen de la fachada -->
             <img
               src="assets/fachada.webp"
-              onerror="this.style.display='none';"
               alt="Fachada del estudio — 12 de Octubre 132, Salta"
-              class="w-full h-full object-cover"
-              style="position:absolute;inset:0;" />
-            <div class="relative z-10 flex flex-col items-center justify-center gap-4 text-center p-8 h-full">
+              class="facade-img"
+              loading="lazy"
+              onerror="
+                this.style.display='none';
+                document.getElementById('fachadaPlaceholder').style.display='flex';
+              "
+            />
+
+            <!-- Placeholder — solo visible si la imagen no carga -->
+            <div id="fachadaPlaceholder" class="facade-placeholder-inner">
               <div class="bento-icon" style="margin-bottom:0;opacity:0.5;">
                 <i class="fa-solid fa-image"></i>
               </div>
@@ -867,6 +1193,7 @@
               </div>
             </div>
           </div>
+
           <div class="flex items-center gap-4 p-4" style="background:#111;border:1px solid rgba(201,168,76,0.1);border-top:none;">
             <i class="fa-regular fa-clock flex-shrink-0" style="color:#c9a84c;"></i>
             <div>
@@ -964,27 +1291,87 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 
   <script>
-    // ── AOS ──
-    AOS.init({ duration: 720, easing: 'ease-out-cubic', once: true, offset: 50 });
+    // ────────────────────────────────────────────
+    // AOS — animaciones de entrada
+    // offset reducido para móvil, once:true para performance
+    // ────────────────────────────────────────────
+    AOS.init({
+      duration : 680,
+      easing   : 'ease-out-cubic',
+      once     : true,
+      offset   : 30,
+      delay    : 0,
+      mirror   : false
+    });
 
-    // ── Navbar scroll ──
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
-    }, { passive: true });
+    // ────────────────────────────────────────────
+    // HEADER SCROLL BEHAVIOR
+    //   - Desktop: topbar desaparece, navbar se solidifica
+    //   - Mobile:  navbar auto-hide al bajar, aparece al subir
+    // ────────────────────────────────────────────
+    const siteHeader = document.getElementById('siteHeader');
+    const navbar     = document.getElementById('navbar');
+    let lastScrollY  = 0;
+    let ticking      = false;
 
-    // ── Mobile menu ──
-    document.getElementById('burgerBtn').addEventListener('click', () =>
-      document.getElementById('mobileMenu').classList.add('open'));
-    document.getElementById('closeMenu').addEventListener('click', () =>
-      document.getElementById('mobileMenu').classList.remove('open'));
-    function closeMob() {
-      document.getElementById('mobileMenu').classList.remove('open');
+    function onScroll() {
+      const currentY = window.scrollY;
+      const scrolled = currentY > 50;
+
+      // Solidificar navbar + ocultar topbar
+      siteHeader.classList.toggle('scrolled', scrolled);
+      navbar.classList.toggle('scrolled', scrolled);
+
+      // Auto-hide solo en mobile (< 1024px) y después de los primeros 120px
+      if (window.innerWidth < 1024) {
+        if (currentY > 120) {
+          if (currentY > lastScrollY + 6) {
+            siteHeader.classList.add('header-hidden');
+          } else if (currentY < lastScrollY - 6) {
+            siteHeader.classList.remove('header-hidden');
+          }
+        } else {
+          siteHeader.classList.remove('header-hidden');
+        }
+      } else {
+        siteHeader.classList.remove('header-hidden');
+      }
+
+      lastScrollY = currentY;
+      ticking = false;
     }
 
-    // ── Tabs (toggle con style.display directo, sin conflicto Tailwind/CSS) ──
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // ────────────────────────────────────────────
+    // MOBILE MENU
+    // ────────────────────────────────────────────
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    document.getElementById('burgerBtn').addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+      siteHeader.classList.remove('header-hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    document.getElementById('closeMenu').addEventListener('click', closeMob);
+
+    function closeMob() {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ────────────────────────────────────────────
+    // TABS SERVICIOS
+    // ────────────────────────────────────────────
     const tabLegal    = document.getElementById('tab-legal');
     const tabNotarial = document.getElementById('tab-notarial');
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1000,26 +1387,32 @@
       });
     });
 
-    // ── Contact form ──
+    // ────────────────────────────────────────────
+    // FORMULARIO DE CONTACTO
+    // ────────────────────────────────────────────
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
       btn.innerHTML = '<i class="fa-solid fa-circle-check"></i>&nbsp;¡Consulta enviada! Me comunicaré a la brevedad.';
       btn.style.background = '#1e6e38';
-      btn.style.clipPath = 'none';
-      btn.disabled = true;
+      btn.style.clipPath   = 'none';
+      btn.disabled         = true;
     });
 
-    // ── Smooth anchor offset (compensate fixed nav) ──
+    // ────────────────────────────────────────────
+    // SMOOTH SCROLL — offset dinámico según altura real del header
+    // ────────────────────────────────────────────
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', function(e) {
         const id = this.getAttribute('href').slice(1);
+        if (!id) return;
         const el = document.getElementById(id);
         if (!el) return;
         e.preventDefault();
-        const offset = 80;
-        const top = el.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
+        closeMob();
+        const offset = siteHeader.offsetHeight + 8;
+        const top    = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
       });
     });
   </script>
